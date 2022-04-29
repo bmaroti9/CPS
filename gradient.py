@@ -76,3 +76,4 @@ def arc_circle(surface, percent, radius, color, center_pos, width, number, font,
         pygame.draw.circle(surface, color, rotating_position(0, radius, angle, center_pos), width)
 
     blit_text(surface, font_color, str(number), center_pos, font, 1)
+    

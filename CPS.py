@@ -8,6 +8,7 @@ import json
 
 from helpers import *
 from gradient import *
+from arc import *
 
 pygame.init()
 
@@ -41,7 +42,7 @@ class Home_page(pygame.sprite.Sprite):
         self.flash = 0
 
     def update(self):
-        gradientRect(SURFACE, (10, 10, 10), (0, 40, 120),
+        gradientRect(SURFACE, (64, 93, 148), (83, 132, 224),
                      Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
 
         if len(self.clicks) > DELTA_TIME * 5:
@@ -53,7 +54,7 @@ class Home_page(pygame.sprite.Sprite):
             PARTICLES.add(Particle(SCREEN_CENTER, self.speed_color, [
                           SCREEN_CENTER[0], 90], self.cps))
             self.clicks.append(1)
-            self.rapid_cool = (self.rapid_cool + 5) * (self.cps * 0.3)
+            self.rapid_cool = (self.rapid_cool + 5) * ((self.cps * 0.05) + 1) 
         else:
             self.clicks.append(0)
             self.rapid_cool = self.rapid_cool * 0.75
@@ -63,7 +64,7 @@ class Home_page(pygame.sprite.Sprite):
             if n.update(SURFACE) != None:
                 self.slowly_add += n.secret_value * 5
 
-        self.fontsize = (self.slowly_add + (self.fontsize) * 3) * 0.1
+        self.fontsize = (self.slowly_add + (self.fontsize) * 2.5) * 0.1
         self.money += self.fontsize
         self.slowly_add -= self.fontsize
 
@@ -71,12 +72,12 @@ class Home_page(pygame.sprite.Sprite):
             'rage', 60 + (round(self.fontsize) * 5))
 
         self.speed_color = transition_colors(
-            (250, 0, 0), (70, 100, 230), 1 - self.cps * 0.06)
+            (250, 0, 0), (224, 208, 75), 1 - self.cps * 0.06)
 
         pygame.draw.circle(SURFACE, self.speed_color, SCREEN_CENTER,
                            60 + (self.cps * 5) + self.rapid_cool)
 
-        blit_text(SURFACE, (230, 180, 0), "$" +
+        blit_text(SURFACE, (250, 250, 250), "$" +
                   str(round(self.money)), [SCREEN_CENTER[0], 90], sizedfont, 1)
 
         blit_text(SURFACE, (0, 0, 0), "{:.1f}".format(
@@ -85,8 +86,9 @@ class Home_page(pygame.sprite.Sprite):
         self.display_coolness()
 
     def display_coolness(self):
-        arc_circle(SURFACE, 0.8, 50, (250, 80, 130), [
-                   1000, 100], 5, 50, FONT2, (250, 250, 250), 1, (0, 0, 80))
+        arc_circle(SURFACE, 0.8, 50, (121, 34, 148), [
+                   1000, 100], 5, 50, FONT2, (250, 250, 250), 1, (187, 63, 224))
+
 
 
 RUNNING = True
