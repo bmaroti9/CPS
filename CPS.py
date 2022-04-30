@@ -26,7 +26,8 @@ SCREEN_CENTER = [SURFACE.get_width() // 2, SURFACE.get_height() // 2]
 
 FONT1 = pygame.font.SysFont('snapitc', 40)
 FONT2 = pygame.font.SysFont('segoeprint', 45)
-FONT3 = pygame.font.SysFont('chiller', 20)
+FONT3 = pygame.font.SysFont('showcardgothic', 20)
+#FONT3 = pygame.font.SysFont('tempussansitc', 20)
 
 
 class Home_page(pygame.sprite.Sprite):
@@ -89,7 +90,7 @@ class Home_page(pygame.sprite.Sprite):
 
         blit_text(SURFACE, (0, 0, 0), "{:.1f}".format(
             self.cps), SCREEN_CENTER, FONT1, 1)
-        blit_text(SURFACE, (0, 0, 0), 'CPS', [SCREEN_CENTER[0], SCREEN_CENTER[1] + 20], FONT3, 1)
+        blit_text(SURFACE, (0, 0, 0), 'CPS', [SCREEN_CENTER[0], SCREEN_CENTER[1] + 35], FONT3, 1)
 
         # self.display_coolness()
 
