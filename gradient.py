@@ -7,6 +7,7 @@ import time
 import json
 
 from helpers import *
+from arc import *
 
 pygame.init()
 
@@ -77,3 +78,6 @@ def arc_circle(surface, percent, radius, color, center_pos, width, number, font,
 
     blit_text(surface, font_color, str(number), center_pos, font, 1)
     
+def arc_circle2(surface, center, font, number, radius, width, percent, color, t_color, add):
+    filled_arc(surface, center, color, radius, width, 90, 90 + (-360 * percent))
+    blit_text(surface, t_color, str(number), center, font, 1)

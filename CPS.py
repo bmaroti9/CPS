@@ -26,6 +26,7 @@ SCREEN_CENTER = [SURFACE.get_width() // 2, SURFACE.get_height() // 2]
 
 FONT1 = pygame.font.SysFont('snapitc', 40)
 FONT2 = pygame.font.SysFont('segoeprint', 45)
+FONT3 = pygame.font.SysFont('chiller', 20)
 
 
 class Home_page(pygame.sprite.Sprite):
@@ -50,6 +51,12 @@ class Home_page(pygame.sprite.Sprite):
 
         self.cps = add_values(self.clicks) / 5
 
+        if pygame.mouse.get_pressed(3)[2]:
+            PARTICLES.add(Particle(SCREEN_CENTER, self.speed_color, [
+                          SCREEN_CENTER[0], 90], self.cps))
+            self.clicks.append(1)
+            self.rapid_cool = (self.rapid_cool + 5) * ((self.cps * 0.05) + 1) 
+
         if button_release(0) or button_release(K_SPACE) or button_release(K_UP):
             PARTICLES.add(Particle(SCREEN_CENTER, self.speed_color, [
                           SCREEN_CENTER[0], 90], self.cps))
@@ -57,7 +64,7 @@ class Home_page(pygame.sprite.Sprite):
             self.rapid_cool = (self.rapid_cool + 5) * ((self.cps * 0.05) + 1) 
         else:
             self.clicks.append(0)
-            self.rapid_cool = self.rapid_cool * 0.75
+            self.rapid_cool = self.rapid_cool * 0.73
             self.rapid_cool = min(self.rapid_cool, SCREEN_HEIGHT * 0.3)
 
         for n in PARTICLES:
@@ -69,25 +76,27 @@ class Home_page(pygame.sprite.Sprite):
         self.slowly_add -= self.fontsize
 
         sizedfont = pygame.font.SysFont(
-            'rage', 60 + (round(self.fontsize) * 5))
+            'rage', 60 + (round(min(self.fontsize, 23)) * 5))
 
         self.speed_color = transition_colors(
             (250, 0, 0), (224, 208, 75), 1 - self.cps * 0.06)
 
         pygame.draw.circle(SURFACE, self.speed_color, SCREEN_CENTER,
-                           60 + (self.cps * 5) + self.rapid_cool)
+                           60 + (self.cps * 4) + (self.rapid_cool * 0.8))
 
         blit_text(SURFACE, (250, 250, 250), "$" +
                   str(round(self.money)), [SCREEN_CENTER[0], 90], sizedfont, 1)
 
         blit_text(SURFACE, (0, 0, 0), "{:.1f}".format(
             self.cps), SCREEN_CENTER, FONT1, 1)
+        blit_text(SURFACE, (0, 0, 0), 'CPS', [SCREEN_CENTER[0], SCREEN_CENTER[1] + 20], FONT3, 1)
 
         self.display_coolness()
 
     def display_coolness(self):
-        arc_circle(SURFACE, 0.8, 50, (121, 34, 148), [
-                   1000, 100], 5, 50, FONT2, (250, 250, 250), 1, (187, 63, 224))
+        #arc_circle(SURFACE, 0.8, 50, (121, 34, 148), [
+                   #1000, 100], 5, 50, FONT2, (250, 250, 250), 1, (187, 63, 224))
+        arc_circle2(SURFACE, [1000, 100], FONT2, 50, 70, 14, 0.7, (245, 194, 36), (230, 180, 143), 1)
 
 
 
