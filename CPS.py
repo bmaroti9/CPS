@@ -16,7 +16,7 @@ SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
 
 SURFACE = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
-SURFACE = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#SURFACE = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 CLOCK = pygame.time.Clock()
 
 print("hello")
@@ -91,7 +91,7 @@ class Home_page(pygame.sprite.Sprite):
             self.cps), SCREEN_CENTER, FONT1, 1)
         blit_text(SURFACE, (0, 0, 0), 'CPS', [SCREEN_CENTER[0], SCREEN_CENTER[1] + 20], FONT3, 1)
 
-        self.display_coolness()
+        # self.display_coolness()
 
     def display_coolness(self):
         #arc_circle(SURFACE, 0.8, 50, (121, 34, 148), [
