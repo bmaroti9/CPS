@@ -27,36 +27,6 @@ def gradientRect(surface, left_colour, right_colour, target_rect):
     surface.blit(colour_rect, target_rect)
 
 
-class Particle(pygame.sprite.Sprite):
-    def __init__(self, starting_pos, color, target, secret_value = 0):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.pos = starting_pos
-        self.color = color
-        self.target = target
-        self.secret_value = secret_value
-        
-        a = rotating_position(0, 50, random.randint(0, 360), [0, 0])
-        self.speed = a
-
-    def update(self, surface):
-        pygame.draw.circle(surface, self.color, self.pos, 10)
-
-        dis = distance(self.pos, self.target)
-        self.speed[0] += (self.target[0] - self.pos[0]) * 0.005
-        self.speed[1] += (self.target[1] - self.pos[1]) * 0.005
-
-        self.speed = [self.speed[0] * 0.89, self.speed[1] * 0.89]
-
-        self.pos = [self.pos[0] + self.speed[0], self.pos[1] + self.speed[1]]
-
-        if 15 > abs(round(self.target[0] - self.pos[0])) and 15 > abs(round(self.target[1] - self.pos[1])):
-            self.kill()
-            return self.secret_value
-            print("kill")
-
-        return None
-
 def draw_arc(surface, percent, radius, color, center_pos, width):
     angle = 0
     old_pos = rotating_position(0, radius, angle, center_pos)
@@ -81,3 +51,33 @@ def arc_circle(surface, percent, radius, color, center_pos, width, number, font,
 def arc_circle2(surface, center, font, number, radius, width, percent, color, t_color, add):
     filled_arc(surface, center, color, radius, width, 90, 90 + (-360 * percent))
     blit_text(surface, t_color, str(number), center, font, 1)
+
+def integer_to_english(number):
+    if number>=1 and number<=1000:
+        a = ['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty ','thirty ','fourty ','fifty ','sixty ','seventy ','eighty ','ninty ']
+        if number<=20:
+            if number%10==0: return a[number]
+            else: return a[number]
+        elif number<100:
+            b=number-20
+            r=b%10
+            b//=10
+            return a[20+b]+a[r]
+        elif number<1000:
+            if number%100==0:
+                b=number//100
+                return a[b]+' hundred'
+            else:
+                r=number%100
+                b=number//100
+                if r<=20:
+                    return a[b]+' hundred'+' and '+a[r]
+                else:
+                    r=r-20
+                    d=r//10
+                    r%=10
+                    return a[b]+' hundred'+' and '+a[20+d]+a[r]
+        elif number==1000:
+            return 'one thousand'
+        else:
+            return -1

@@ -11,6 +11,9 @@ pygame.init()
 NAME_OF_RELEASE = []
 STATE_OF_RELEASE = []
 
+IMAGE_NAMES = []
+IMAGE_IMAGES = []
+
 
 def rotating_position(x, y, direction, pos):
     """
@@ -53,6 +56,8 @@ def speed_in_direction(speed, direction, original_real_speed):
 
 
 def button(surface, font, color, text, pos, rect_color, tuch_color, width, mouse_add=[0, 0]):
+    clicked = False
+    
     wrighting = font.render(text, True, color)
     rect = wrighting.get_rect()
     rect.topleft = pos
@@ -73,10 +78,14 @@ def button(surface, font, color, text, pos, rect_color, tuch_color, width, mouse
                            ) and mouse_pos[1] < (saint_rect[1] + saint_rect[3])
 
     if hihi and haha:
-        print("clicked")
+        a = button_release(3)
+        print(a, 'hhhhhhhhhhhhhhhhhhhhh')
+        if a:
+            clicked = True
         wrighting = font.render(text, True, tuch_color)
 
     surface.blit(wrighting, rect)
+    return clicked
 
 
 def blit_text(surface, color, text, pos, font, center = 0):
@@ -89,6 +98,7 @@ def blit_text(surface, color, text, pos, font, center = 0):
         rect.center = pos
     
     surface.blit(wrighting, rect)
+    return rect
 
 
 def detect_click_rect(which_click, rect, mouse_add=[0, 0]):
@@ -124,6 +134,21 @@ def blit_sprite(sprite, pos, surface, font):
             n), [pos[0], y], font, 1)
         y += 23
 
+def blit_image(surface, directory, pos, zoom):
+    if IMAGE_NAMES.__contains__(directory):
+        index = IMAGE_NAMES.index(directory)
+        image = IMAGE_IMAGES[index]
+    else:
+        image = pygame.image.load(directory).convert_alpha()
+        image = pygame.transform.rotozoom(image, 0, zoom)
+        IMAGE_NAMES.append(directory)
+        IMAGE_IMAGES.append(image)
+        index = IMAGE_NAMES.index(directory)
+    
+    rect = image.get_rect()
+    rect.center = pos
+    surface.blit(image, rect)           
+
 def determine_biggest_width(sprite, font):
     split = sprite.splitlines()
 
@@ -145,8 +170,10 @@ def button_release(name):
         STATE_OF_RELEASE.append(False)
         index = NAME_OF_RELEASE.index(name)
     
-    if name == 0 or name == 1 or name == 2:
-        pressed = pygame.mouse.get_pressed(3)[name]
+    print(ditinguish_button_and_number(name), 'dist', name)
+    
+    if name == 0 or name == 1 or name == 2 or name == 3:
+        pressed = pygame.mouse.get_pressed(3)[name % 3]
 
         if pressed:
             if STATE_OF_RELEASE[index] == False:
@@ -177,7 +204,7 @@ def transition_colors(color1, color2, percent):
         b[n] = b[n] * (1 - percent)
 
     for n in range(3):
-        a[n] = b[n] + a[n]
+        a[n] = round(b[n] + a[n])
     
     return a
 
@@ -187,7 +214,18 @@ def add_values(listy):
         a += n
     return a
 
+def ditinguish_button_and_number(value):
+    try:
+        a = value * 1
+    except:
+        return False
+    return True
 
+def containsNumber(value):
+    for character in value:
+        if character.isdigit():
+            return True
+    return False
 
 
 
