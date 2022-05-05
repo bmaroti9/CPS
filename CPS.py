@@ -87,7 +87,7 @@ class Home_page(pygame.sprite.Sprite):
             self.clicks.append(1)
             self.rapid_cool = (self.rapid_cool + 5) * ((self.cps * 0.08) + 2)
 
-        if button_release(0) or button_release(K_SPACE) or button_release(K_UP):
+        if check_released(0) or check_released(K_SPACE) or check_released(K_UP):
             PARTICLES.add(Particle(SCREEN_CENTER, self.speed_color, [
                           SCREEN_CENTER[0], 90], 50, self.cps))
             self.clicks.append(1)
@@ -135,8 +135,6 @@ class Home_page(pygame.sprite.Sprite):
         
         change_setting = button(SURFACE, FONT4, (250, 0, 0), CLICKING_OPTIONS[CLICKING_SETTING],
                     [10, 10], (250, 0, 0), (100, 0, 0), 2)
-        
-        print(change_setting, 'jjjjjjjjjjjjjjjjj')
         
         if change_setting:
             CLICKING_SETTING += 1

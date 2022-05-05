@@ -8,8 +8,8 @@ import json
 
 pygame.init()
 
-NAME_OF_RELEASE = []
-STATE_OF_RELEASE = []
+BUTTON_NAMES = []
+BUTTON_STATE = []
 
 IMAGE_NAMES = []
 IMAGE_IMAGES = []
@@ -78,8 +78,7 @@ def button(surface, font, color, text, pos, rect_color, tuch_color, width, mouse
                            ) and mouse_pos[1] < (saint_rect[1] + saint_rect[3])
 
     if hihi and haha:
-        a = button_release(3)
-        print(a, 'hhhhhhhhhhhhhhhhhhhhh')
+        a = check_released(3)
         if a:
             clicked = True
         wrighting = font.render(text, True, tuch_color)
@@ -162,36 +161,37 @@ def determine_biggest_width(sprite, font):
 
     return greatest
 
-def button_release(name):
-    if NAME_OF_RELEASE.__contains__(name):
-        index = NAME_OF_RELEASE.index(name)
-    else:
-        NAME_OF_RELEASE.append(name)
-        STATE_OF_RELEASE.append(False)
-        index = NAME_OF_RELEASE.index(name)
-    
-    print(ditinguish_button_and_number(name), 'dist', name)
-    
-    if name == 0 or name == 1 or name == 2 or name == 3:
-        pressed = pygame.mouse.get_pressed(3)[name % 3]
+def check_released(button):
+    if not BUTTON_NAMES.__contains__(button):
+        BUTTON_NAMES.append(button)
+        BUTTON_STATE.append(False)
 
-        if pressed:
-            if STATE_OF_RELEASE[index] == False:
-                STATE_OF_RELEASE[index] = True
-                return True
-        else:
-            STATE_OF_RELEASE[index] = False
-    else:
+    x = BUTTON_NAMES.index(button)
+
+    if int(button) > 12:
         key = pygame.key.get_pressed()
+        #if button.isdigit():
+            #button = int(button)
 
-        if key[name]:
-            if STATE_OF_RELEASE[index] == False:
-                STATE_OF_RELEASE[index] = True
+        if key[button]:
+            if not BUTTON_STATE[x]:
+                BUTTON_STATE[x] = True
                 return True
         else:
-            STATE_OF_RELEASE[index] = False
-    
+            BUTTON_STATE[x] = False
+    else:
+        button = button % 3
+        hihi = pygame.mouse.get_pressed(3)[button]
+
+        if hihi:
+            if not BUTTON_STATE[x]:
+                BUTTON_STATE[x] = True
+                return True
+        else:
+            BUTTON_STATE[x] = False
+
     return False
+
 
 def transition_colors(color1, color2, percent):
     percent = max(percent, 0)
