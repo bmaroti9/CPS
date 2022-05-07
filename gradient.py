@@ -54,7 +54,10 @@ def arc_circle2(surface, center, font, number, radius, width, percent, color, t_
 
 def integer_to_english(number):
     if number>=1 and number<=1000:
-        a = ['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty ','thirty ','fourty ','fifty ','sixty ','seventy ','eighty ','ninty ']
+        a = ['','one','two','three','four','five','six',
+                'seven','eight','nine','ten','eleven','twelve','thirteen','fourteen',
+                        'fifteen','sixteen','seventeen','eighteen','nineteen','twenty ','thirty ',
+                        'fourty ','fifty ','sixty ','seventy ','eighty ','ninty ']
         if number<=20:
             if number%10==0: return a[number]
             else: return a[number]
@@ -81,3 +84,11 @@ def integer_to_english(number):
             return 'one thousand'
         else:
             return -1
+
+
+def sin_pos(rattle, loop_length, speed, offset = 0):
+    t = ((pygame.time.get_ticks() + offset) / 2 % loop_length) * speed # scale and loop time
+    x = t
+    y = math.sin(t/50.0) * rattle      # scale sine wave
+    y = int(y)   
+    return [x, y]

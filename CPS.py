@@ -32,8 +32,7 @@ SURFACE.blit(image, rect)
 pygame.display.update()
 time.sleep(3)
 
-CLICKING_OPTIONS = ['everything', 'mouse_only', 'spacebar_only', 'mouse_and_up-arrow', 
-                        'mouse, space, up-arrow', 'just_rightclick']
+CLICKING_OPTIONS = ['everything', 'no_right-click']
 CLICKING_SETTING = 0
 
 '''
@@ -55,7 +54,7 @@ SCREEN_CENTER = [SURFACE.get_width() // 2, SURFACE.get_height() // 2]
 FONT1 = pygame.font.SysFont('snapitc', 40)
 FONT2 = pygame.font.SysFont('segoeprint', 45)
 FONT3 = pygame.font.SysFont('showcardgothic', 20)
-FONT4 = pygame.font.SysFont('copperplategothic', 20)
+FONT4 = pygame.font.SysFont('copperplategothic', 30)
 #FONT3 = pygame.font.SysFont('tempussansitc', 20)
 
 
@@ -81,7 +80,7 @@ class Home_page(pygame.sprite.Sprite):
 
         self.cps = add_values(self.clicks) / 5
 
-        if pygame.mouse.get_pressed(3)[2]:
+        if pygame.mouse.get_pressed(3)[2] and CLICKING_SETTING == 0:
             PARTICLES.add(Particle(SCREEN_CENTER, self.speed_color, [
                           SCREEN_CENTER[0], 90], 50, self.cps))
             self.clicks.append(1)
@@ -95,7 +94,7 @@ class Home_page(pygame.sprite.Sprite):
         else:
             self.clicks.append(0)
             self.rapid_cool = self.rapid_cool * 0.73
-            self.rapid_cool = min(self.rapid_cool, SCREEN_HEIGHT * 0.3)
+            self.rapid_cool = min(self.rapid_cool, SCREEN_HEIGHT * 0.07)
 
         for n in PARTICLES:
             if n.update(SURFACE) != None:
@@ -133,10 +132,11 @@ class Home_page(pygame.sprite.Sprite):
         #arc_circle2(SURFACE, [1000, 100], FONT2, 50, 70,
                     #14, 0.7, (245, 194, 36), (230, 180, 143), 1)
         
-        change_setting = button(SURFACE, FONT4, (250, 0, 0), CLICKING_OPTIONS[CLICKING_SETTING],
-                    [10, 10], (250, 0, 0), (100, 0, 0), 2)
+        change_setting = button(SURFACE, FONT4, (150, 0, 0), CLICKING_OPTIONS[CLICKING_SETTING],
+                    [10, 10], (150, 0, 0), (80, 0, 0), 2)
         
         if change_setting:
+            self.clicks = []
             CLICKING_SETTING += 1
             if CLICKING_SETTING > len(CLICKING_OPTIONS) - 1:
                 CLICKING_SETTING = 0
