@@ -10,6 +10,7 @@ from helpers import *
 from gradient import *
 from arc import *
 from colors_and_images import *
+from particle_effects import *
 
 pygame.init()
 
@@ -21,7 +22,7 @@ SURFACE = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 CLOCK = pygame.time.Clock()
 
 SURFACE.fill((200, 200, 200))
-gradientRect(SURFACE, (0, 0, 10), (83, 132, 255),
+gradientRect_w(SURFACE, (0, 0, 10), (83, 132, 255),
                      Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
 image = pygame.image.load(
     "images/dragon_tail_white_shadow.png").convert_alpha()
@@ -54,7 +55,8 @@ SCREEN_CENTER = [SURFACE.get_width() // 2, SURFACE.get_height() // 2]
 FONT1 = pygame.font.SysFont('snapitc', 40)
 FONT2 = pygame.font.SysFont('segoeprint', 45)
 FONT3 = pygame.font.SysFont('showcardgothic', 20)
-FONT4 = pygame.font.SysFont('copperplategothic', 30)
+FONT4 = pygame.font.SysFont('copperplategothic', 25)
+FONT5 = pygame.font.SysFont('copperplategothic', 25)
 #FONT3 = pygame.font.SysFont('tempussansitc', 20)
 
 
@@ -70,10 +72,24 @@ class Home_page(pygame.sprite.Sprite):
         self.slowly_add = 0
         self.fontsize = 60
         self.flash = 0
+        self.sea = generate_ocean(SURFACE)
+        generate_new_skymap(SURFACE)
+
+        for n in range(5):
+            add_monster(SURFACE, 1, 1)
 
     def update(self):
-        gradientRect(SURFACE, (64, 93, 148), (83, 132, 224),
-                     Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
+        #gradientRect_w(SURFACE, (64, 93, 148), (83, 132, 224),
+                     #Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
+        #blit_image(SURFACE, "images/Sky1.png", [0, 300], 4.48)
+        gradientRect_h(SURFACE, (20, 30, 120), (110, 80, 148),
+                     Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 200))
+        
+        gradientRect_h(SURFACE, (110, 80, 148), ocean_color(),
+                     Rect(0, SCREEN_HEIGHT - 200, SCREEN_WIDTH, 50))
+        blit_image(SURFACE, "images/Moon.png", [SURFACE.get_width() / 2 + 200, 150], 0.3)
+        blit_skymap(SURFACE, [0, 0])
+        draw_ocean(SURFACE, self.sea)
 
         if len(self.clicks) > DELTA_TIME * 5:
             del self.clicks[0]
@@ -104,6 +120,8 @@ class Home_page(pygame.sprite.Sprite):
         self.money += self.fontsize
         self.slowly_add -= self.fontsize
 
+        manadge_monsters(SURFACE)
+        
         sizedfont = pygame.font.SysFont(
             'rage', 60 + (round(min(self.fontsize, 23)) * 5))
 
@@ -115,6 +133,9 @@ class Home_page(pygame.sprite.Sprite):
 
         size = blit_text(SURFACE, (250, 250, 250), "$" +
                   str('{:,}'.format(round(self.money))), [SCREEN_CENTER[0], 90], sizedfont, 1)
+
+        blit_text(SURFACE, (255, 255, 255), str(round(overtook() * 100)) + '%', 
+                [SCREEN_CENTER[0], SCREEN_HEIGHT - 30], FONT5, 1)
 
         blit_text(SURFACE, (0, 0, 0), "{:.1f}".format(
             self.cps), SCREEN_CENTER, FONT1, 1)
@@ -132,8 +153,8 @@ class Home_page(pygame.sprite.Sprite):
         #arc_circle2(SURFACE, [1000, 100], FONT2, 50, 70,
                     #14, 0.7, (245, 194, 36), (230, 180, 143), 1)
         
-        change_setting = button(SURFACE, FONT4, (150, 0, 0), CLICKING_OPTIONS[CLICKING_SETTING],
-                    [10, 10], (150, 0, 0), (80, 0, 0), 2)
+        change_setting = button(SURFACE, FONT4, (255, 255, 255), CLICKING_OPTIONS[CLICKING_SETTING],
+                    [10, 10], (150, 0, 0), (80, 0, 0), 0)
         
         if change_setting:
             self.clicks = []

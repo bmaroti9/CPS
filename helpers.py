@@ -227,6 +227,9 @@ def containsNumber(value):
             return True
     return False
 
+def random_pos_on_surf(surface):
+    a = [random.randint(0, surface.get_width()), random.randint(0, surface.get_width())]
+    return a
 
 
 

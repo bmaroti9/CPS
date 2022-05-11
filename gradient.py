@@ -11,15 +11,30 @@ from arc import *
 
 pygame.init()
 
+SKY_PICTURES = []
 PARCTICLES = pygame.sprite.Group()
 
-def gradientRect(surface, left_colour, right_colour, target_rect):
+def gradientRect_w(surface, left_colour, right_colour, target_rect):
     """ Draw a horizontal-gradient filled rectangle covering <target_rect> """
     colour_rect = pygame.Surface(
         (2, 2))                                   # tiny! 2x2 bitmap
     pygame.draw.line(colour_rect, left_colour,  (0, 0),
                      (0, 1))            # left colour line
     pygame.draw.line(colour_rect, right_colour, (1, 0),
+                     (1, 1))            # right colour line
+    colour_rect = pygame.transform.smoothscale(
+        colour_rect, (target_rect.width, target_rect.height))  # stretch!
+    # paint it
+    surface.blit(colour_rect, target_rect)
+
+
+def gradientRect_h(surface, top_colour, bottom_colour, target_rect):
+    """ Draw a horizontal-gradient filled rectangle covering <target_rect> """
+    colour_rect = pygame.Surface(
+        (2, 2))                                   # tiny! 2x2 bitmap
+    pygame.draw.line(colour_rect, top_colour,  (0, 0),
+                     (1, 0))            # left colour line
+    pygame.draw.line(colour_rect, bottom_colour, (0, 1),
                      (1, 1))            # right colour line
     colour_rect = pygame.transform.smoothscale(
         colour_rect, (target_rect.width, target_rect.height))  # stretch!
@@ -92,3 +107,22 @@ def sin_pos(rattle, loop_length, speed, offset = 0):
     y = math.sin(t/50.0) * rattle      # scale sine wave
     y = int(y)   
     return [x, y]
+
+def generate_new_skymap(surface):
+    global SKY_PICTURES
+    SKY_PICTURES = []
+
+    star_positions = []
+    for n in range(500):
+        star_positions.append(random_pos_on_surf(surface))
+    
+    for n in range(20):
+        a = pygame.Surface([surface.get_width(), surface.get_height()], pygame.SRCALPHA, 32)
+        for n in star_positions:
+            if random.randint(0, 10) != 0:
+                pygame.draw.circle(a, (255, 255, 255), n, 1)
+        SKY_PICTURES.append(a)
+
+def blit_skymap(surface, pos):
+    current_sky = (pygame.time.get_ticks() // 89) % 20
+    surface.blit(SKY_PICTURES[current_sky], pos)
