@@ -60,9 +60,9 @@ def test():
 
     while True:
         send(msg)
-        time.sleep(0.1)
+        #time.sleep(0.1)
         print("received", receive())
-        time.sleep(0.9)
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':

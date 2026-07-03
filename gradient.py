@@ -126,3 +126,10 @@ def generate_new_skymap(surface):
 def blit_skymap(surface, pos):
     current_sky = (pygame.time.get_ticks() // 89) % 20
     surface.blit(SKY_PICTURES[current_sky], pos)
+
+def bar_display(surface, color, start_pos, length, width, percent, background = 0):
+    real_length = length * percent
+    if background != 0:
+        pygame.draw.line(surface, background, start_pos, [start_pos[0] + length, start_pos[1]], width)
+
+    pygame.draw.line(surface, color, start_pos, [start_pos[0] + real_length, start_pos[1]], width)

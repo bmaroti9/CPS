@@ -5,15 +5,15 @@ import pygame
 from pygame.locals import *
 import time
 import json
-from Helpers import *
+from helpers import *
 
 pygame.init()
 
-with open("names_first.txt", "r") as f:
-    FIRST = json.load(f)
+#with open("names_first.txt", "r") as f:
+    #FIRST = json.load(f)
 
-with open("names_last.txt", "r") as f:
-    LAST = json.load(f)
+#with open("names_last.txt", "r") as f:
+    #LAST = json.load(f)
 
 
 def textbox(surface, text, max_width, pos, font, color):
@@ -38,12 +38,12 @@ def textbox(surface, text, max_width, pos, font, color):
     return [(pos[1] + b.get_height()) - starty, pos]
 
 
-def list_content(surface, content, font, color, spacing, start_pos, line_width, number):
+def list_content(surface, content, font, color, spacing, start_pos, line_width, number, center = 0):
     x = start_pos[0]
     y = start_pos[1]
 
     for n in content:
-        hihi = blit_text(surface, n, font, color, [x, y], 0)
+        hihi = blit_text(surface, color, n, [x, y], font, center)
 
         if line_width != 0:
             mid = hihi.height / 2 + spacing / 2

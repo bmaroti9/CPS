@@ -231,6 +231,21 @@ def random_pos_on_surf(surface):
     a = [random.randint(0, surface.get_width()), random.randint(0, surface.get_width())]
     return a
 
+def edit_colors(color, change):
+    new_color = []
+    multipy = 1
+    for n in range(3):
+        a = color[n] * change[n]
+        if a > 250:
+            x = 250 / a
+            if x < multipy:
+                multipy = x
 
+        new_color.append(a)
+
+    for n in range(3):
+        new_color[n] = new_color[n] * multipy
+
+    return new_color
 
     
